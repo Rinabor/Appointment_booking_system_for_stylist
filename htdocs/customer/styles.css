@@ -1,0 +1,515 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    padding-top: 80px; /* Offset for fixed top bar */
+    color: #333;
+    line-height: 1.6;
+}
+
+h2, h3 {
+    color: #000;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+p {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+/* Table Styling */
+table {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.3s ease-in-out;
+}
+
+table:hover {
+    transform: scale(1.02);
+}
+
+thead {
+    background-color: #000;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+td, th {
+    padding: 14px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+}
+
+td a {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+td a:hover {
+    text-decoration: underline;
+    color: darkred;
+}
+
+/* Fix for Top Bar Overlap */
+nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: black;
+    z-index: 1000;
+    padding: 15px 0;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form Styling */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-top: 10px;
+}
+
+select, input[type="date"], input[type="time"], input[type="checkbox"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: red;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(255, 0, 0, 0.4);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .container {
+        width: 95%;
+    }
+    table {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        padding-top: 90px;
+    }
+    h2, h3 {
+        font-size: 22px;
+    }
+    p {
+        font-size: 18px;
+    }
+    table {
+        width: 100%;
+        font-size: 14px;
+    }
+    td, th {
+        padding: 12px;
+        font-size: 14px;
+    }
+    form {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding-top: 90px;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        overflow-y: auto;
+    }
+    h2, h3 {
+        font-size: 20px;
+        margin: 10px 0;
+        word-wrap: break-word;
+    }
+    p {
+        font-size: 16px;
+        margin: 10px;
+        word-wrap: break-word;
+    }
+    .container {
+        width: 100%;
+        padding: 15px;
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+    table {
+        width: 100%;
+        font-size: 14px;
+        margin: 0;
+        border: none;
+        overflow-x: auto;
+    }
+    td, th {
+        padding: 8px;
+        font-size: 12px;
+        word-wrap: break-word;
+    }
+    form {
+        width: 100%;
+        padding: 10px;
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+    input, select, button {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+    button {
+        padding: 12px;
+        font-size: 16px;
+    }
+    a {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px;
+        margin: 10px 0;
+        text-align: center;
+        box-sizing: border-box;
+    }
+    .profile-container {
+        width: 100%;
+        padding: 15px;
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+    .profile-form {
+        gap: 10px;
+    }
+    .profile-form input, .profile-form textarea {
+        font-size: 14px;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .profile-form button {
+        font-size: 16px;
+        padding: 12px;
+    }
+    img, video, iframe {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+    h2, h3 {
+        font-size: 18px; /* Adjust heading sizes */
+        margin: 10px 0;
+    }
+    p {
+        font-size: 14px; /* Adjust paragraph font size */
+        margin: 10px;
+    }
+    .profile-container {
+        width: 100%; /* Full width */
+        padding: 10px;
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+    .profile-form {
+        gap: 10px;
+    }
+    .profile-form input, .profile-form textarea {
+        font-size: 14px;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .profile-form button {
+        font-size: 16px;
+        padding: 12px;
+    }
+    .features li {
+        flex: 1 1 100%; /* Full width for feature items */
+        max-width: 100%;
+        margin: 10px 0;
+    }
+    .cta-button {
+        width: 100%; /* Full width for call-to-action buttons */
+        font-size: 16px;
+        padding: 10px;
+    }
+}
+
+/* General Link Styling */
+a {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #000; /* Black background */
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+    background-color: red; /* Red hover effect */
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(255, 0, 0, 0.4);
+}
+
+/* Centering for standalone links */
+a.center {
+    display: block;
+    width: 250px;
+    margin: 30px auto;
+}
+/* Status Colors */
+.status-accepted {
+    color: green;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: orange;
+    font-weight: bold;
+}
+/* Profile Management Page */
+.profile-container {
+    width: 50%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.profile-container h2 {
+    margin-bottom: 15px;
+    font-size: 24px;
+    color: #000;
+}
+
+.profile-container p {
+    font-size: 16px;
+    color: green;
+    font-weight: bold;
+}
+
+/* Profile Form Styling */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.profile-form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+}
+
+.profile-form input,
+.profile-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.profile-form textarea {
+    resize: none;
+    height: 100px;
+}
+
+.profile-form button {
+    padding: 12px;
+    background-color: black;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.profile-form button:hover {
+    background-color: red;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(255, 0, 0, 0.4);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .profile-container {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding-top: 90px;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+        overflow-y: auto;
+    }
+
+    .container {
+        width: 100%; /* Full width */
+        padding: 10px; /* Adjust padding */
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    table {
+        width: 100%; /* Ensure table fits */
+        font-size: 12px; /* Adjust font size */
+        margin: 0;
+        border: none;
+        overflow-x: auto;
+    }
+
+    td, th {
+        padding: 8px;
+        font-size: 12px;
+        word-wrap: break-word;
+    }
+
+    form {
+        width: 100%; /* Full width for forms */
+        padding: 10px;
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    input, select, button {
+        width: 100%; /* Full width for inputs */
+        font-size: 14px;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    a {
+        width: 100%; /* Full width for links */
+        font-size: 16px;
+        padding: 12px;
+        margin: 10px 0;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    img, video, iframe {
+        max-width: 100%; /* Ensure media fits */
+        height: auto;
+        display: block;
+    }
+
+    h2, h3 {
+        font-size: 18px; /* Adjust heading sizes */
+        margin: 10px 0;
+    }
+
+    p {
+        font-size: 14px; /* Adjust paragraph font size */
+        margin: 10px;
+    }
+
+    .profile-container {
+        width: 100%; /* Full width */
+        padding: 10px;
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .profile-form {
+        gap: 10px;
+    }
+
+    .profile-form input, .profile-form textarea {
+        font-size: 14px;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .profile-form button {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
