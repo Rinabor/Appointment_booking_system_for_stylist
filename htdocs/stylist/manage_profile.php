@@ -47,20 +47,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Handle file upload
     $upload_dir = 'uploads/';
-    $uploaded_file = $_FILES['profile_picture']['name'];
-    $target_file = $upload_dir . basename($uploaded_file);
-    $image_file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    if (!empty($_FILES['profile_picture']['name'])) {
+        $uploaded_file = $_FILES['profile_picture']['name'];
+        $target_file = $upload_dir . basename($uploaded_file);
+        $image_file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    // Check if image file is a actual image or fake image
-    $check = getimagesize($_FILES['profile_picture']['tmp_name']);
-    if ($check !== false) {
-        if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $target_file)) {
-            $picture = $uploaded_file;
+        // Check if image file is a valid image
+        $check = getimagesize($_FILES['profile_picture']['tmp_name']);
+        if ($check !== false) {
+            if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $target_file)) {
+                $picture = $uploaded_file;
+            } else {
+                $error_message = "Sorry, there was an error uploading your file.";
+            }
         } else {
-            $error_message = "Sorry, there was an error uploading your file.";
+            $error_message = "File is not an image.";
         }
     } else {
-        $error_message = "File is not an image.";
+        // Retain the existing picture if no new file is uploaded
+        $picture = $picture ?? null;
     }
 
     // Check if all required fields are filled

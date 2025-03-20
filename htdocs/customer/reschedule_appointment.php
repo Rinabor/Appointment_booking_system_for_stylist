@@ -107,12 +107,44 @@ $conn->close();
     
     <form action="reschedule_appointment.php?appointmentID=<?php echo $appointment_id; ?>" method="POST">
         <label for="appointment_date">New Appointment Date:</label>
-        <input type="date" id="appointment_date" name="appointment_date" value="<?php echo $appointment_date; ?>" required><br><br>
+        <input type="date" id="appointment_date" name="appointment_date" value="<?php echo $appointment_date; ?>" onchange="updateTimeSlots()" required><br><br>
         
-        <label for="start_time">New Start Time:</label>
-        <input type="time" id="start_time" name="start_time" value="<?php echo $start_time; ?>" required><br><br>
+        <div id="timeSlotContainer" style="display: none;">
+            <label for="start_time">Available Time Slots:</label>
+            <select id="start_time" name="start_time" required>
+                <option value="">Select a time slot</option>
+            </select>
+        </div>
 
         <button type="submit">Reschedule Appointment</button>
     </form>
+
+    <script>
+        function updateTimeSlots() {
+            const date = document.getElementById('appointment_date').value;
+            const stylistId = <?php echo $stylist_id; ?>;
+            const timeSlotContainer = document.getElementById('timeSlotContainer');
+            const timeSelect = document.getElementById('start_time');
+
+            if (!date || !stylistId) {
+                timeSlotContainer.style.display = 'none';
+                return;
+            }
+
+            // Fetch available time slots
+            fetch(`get_available_slots.php?date=${date}&stylist_id=${stylistId}`)
+                .then(response => response.json())
+                .then(slots => {
+                    timeSelect.innerHTML = '<option value="">Select a time slot</option>';
+                    slots.forEach(slot => {
+                        const option = document.createElement('option');
+                        option.value = slot.value;
+                        option.textContent = slot.display;
+                        timeSelect.appendChild(option);
+                    });
+                    timeSlotContainer.style.display = 'block';
+                });
+        }
+    </script>
 </body>
 </html>

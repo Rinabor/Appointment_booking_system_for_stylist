@@ -72,7 +72,7 @@ $conn->close();
             </tr>
         </table>
         <div class="btn-container">
-            <a href="manage_profile.php" class="btn">Edit Profile</a>
+            <a href="manage_profile.php" class="btn">Update Profile</a>
         </div>
     </div>
 </body>

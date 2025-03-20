@@ -162,11 +162,11 @@ $conn->close();
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="sidebars.css">
     <style>
-        /* Only keep the table styles */
         .appointments-table {
             width: 100%;
-            margin: 10px;
-            float: left;
+            margin: 10px 0;
+            border-collapse: collapse;
+            overflow-x: auto;
         }
 
         .appointments-table h3 {
@@ -176,17 +176,101 @@ $conn->close();
             color: #333;
         }
 
-        .clearfix::after {
-            content: "";
-            display: table;
-            clear: both;
+        .search-container {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
         }
 
+        .search-input {
+            width: calc(100% - 100px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .search-button {
+            width: 80px;
+            padding: 10px;
+            margin-left: 10px;
+        }
+
+        /* Responsive styles */
         @media screen and (max-width: 768px) {
-            .appointments-table {
-                width: 100%;
-                float: none;
+            body {
+                padding: 0;
+                margin: 0;
+                width: 100vw;
+                overflow-x: hidden;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                padding: 10px;
                 margin: 10px 0;
+            }
+
+            .appointments-table {
+                margin: 0;
+                font-size: 14px;
+            }
+
+            .appointments-table th,
+            .appointments-table td {
+                padding: 8px 4px;
+                word-break: break-word;
+            }
+
+            /* Make table scrollable horizontally */
+            .appointments-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Stack form elements */
+            .search-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .search-button {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            /* Adjust action buttons */
+            form[action="Appointments.php"] {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .accept-button,
+            .reject-button {
+                width: 100%;
+                padding: 8px;
+                margin: 2px 0;
+            }
+        }
+
+        /* Small phone screens */
+        @media screen and (max-width: 480px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            .appointments-table th,
+            .appointments-table td {
+                font-size: 12px;
+                padding: 6px 2px;
             }
         }
     </style>
@@ -194,14 +278,7 @@ $conn->close();
 <body>
     <?php include 'menu.php'; ?>
 
-    <div class="tabs">
-        <button class="tab-button active" data-tab="today">Today's Appointments</button>
-        <button class="tab-button" data-tab="upcoming">Upcoming Appointments</button>
-    </div>
-
-    <!-- Tab Content -->
-    <div id="today" class="tab-content active">
-        <h1>Today's Appointments</h1>
+    <h1>Today's Appointments</h1>
 
     <!-- Search Form -->
     <form method="GET" action="Appointments.php" class="search-form">
@@ -214,104 +291,88 @@ $conn->close();
 
     <div class="suggestions" id="suggestions"></div>
 
+    <table class="appointments-table">
+        <thead>
+            <tr>
+                <th>Customer Name</th>
+                <th>Contact Number</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($today_appointments)) { 
+                foreach ($today_appointments as $appointment) { ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($appointment['CustomerName'] . " " . $appointment['CustomerLastname']); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['ContactNumber']); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['Email']); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['Address']); ?></td>
+                        <td><?php echo htmlspecialchars(date("F d, Y", strtotime($appointment['AppointmentDate']))); ?></td>
+                        <td><?php echo htmlspecialchars(date("h:i A", strtotime($appointment['StartTime'])), ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['Status']); ?></td>
+                        <td>
+                            <form action="Appointments.php" method="POST" style="display:flex; justify-content:center; gap: 5px;">
+                                <input type="hidden" name="appointment_id" value="<?php echo $appointment['AppointmentID']; ?>">
+                                <button type="submit" class="accept-button">Done</button>
+                                <button type="submit" name="action" value="no_show" class="reject-button">No Show</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php } 
+            } else { ?>
+                <tr><td colspan="8">No appointments for today.</td></tr>
+            <?php } ?>
+        </tbody>
+    </table>
 
-
-        <table class="appointments-table">
-            <thead>
-                <tr>
-                    <th>Customer Name</th>
-                    <th>Contact Number</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($today_appointments)) { 
-                    foreach ($today_appointments as $appointment) { ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($appointment['CustomerName'] . " " . $appointment['CustomerLastname']); ?></td>
-                            <td><?php echo htmlspecialchars($appointment['ContactNumber']); ?></td>
-                            <td><?php echo htmlspecialchars($appointment['Email']); ?></td>
-                            <td><?php echo htmlspecialchars($appointment['Address']); ?></td>
-                            <td><?php echo htmlspecialchars(date("F d, Y", strtotime($appointment['AppointmentDate']))); ?></td>
-                            <td><?php echo htmlspecialchars(date("h:i A", strtotime($appointment['StartTime'])), ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td><?php echo htmlspecialchars($appointment['Status']); ?></td>
-                            <td>
-                                <form action="Appointments.php" method="POST" style="display:flex; justify-content:center; gap: 5px;">
-                                    <input type="hidden" name="appointment_id" value="<?php echo $appointment['AppointmentID']; ?>">
-                                    <button type="submit" class="accept-button">Done</button>
-                                    <button type="submit" name="action" value="no_show" class="reject-button">No Show</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php } 
-                } else { ?>
-                    <tr><td colspan="8">No appointments for today.</td></tr>
-                <?php } ?>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="upcoming" class="tab-content">
-        <h1>Upcoming Appointments</h1>
-        <table class="appointments-table">
-            <thead>
-                <tr>
-                    <th>Customer Name</th>
-                    <th>Contact Number</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($other_appointments)) { 
-                    foreach ($other_appointments as $appointment) { ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($appointment['CustomerName'] . " " . $appointment['CustomerLastname']); ?></td>
-                            <td><?php echo htmlspecialchars($appointment['ContactNumber']); ?></td>
-                            <td><?php echo htmlspecialchars($appointment['Email']); ?></td>
-                            <td><?php echo htmlspecialchars($appointment['Address']); ?></td>
-                            <td><?php echo htmlspecialchars(date("F d, Y", strtotime($appointment['AppointmentDate']))); ?></td>
-                            <td><?php echo htmlspecialchars(date("h:i A", strtotime($appointment['StartTime'])), ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td><?php echo htmlspecialchars($appointment['Status']); ?></td>
-                            <td>
-                                <form action="Appointments.php" method="POST" style="display:flex; justify-content:center; gap: 5px;">
-                                    <input type="hidden" name="appointment_id" value="<?php echo $appointment['AppointmentID']; ?>">
-                                    <button type="submit" class="accept-button">Done</button>
-                                    <button type="submit" name="action" value="no_show" class="reject-button">No Show</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php } 
-                } else { ?>
-                    <tr><td colspan="8">No upcoming appointments.</td></tr>
-                <?php } ?>
-            </tbody>
-        </table>
-    </div>
+    <h1>Upcoming Appointments</h1>
+    <table class="appointments-table">
+        <thead>
+            <tr>
+                <th>Customer Name</th>
+                <th>Contact Number</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($other_appointments)) { 
+                foreach ($other_appointments as $appointment) { ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($appointment['CustomerName'] . " " . $appointment['CustomerLastname']); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['ContactNumber']); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['Email']); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['Address']); ?></td>
+                        <td><?php echo htmlspecialchars(date("F d, Y", strtotime($appointment['AppointmentDate']))); ?></td>
+                        <td><?php echo htmlspecialchars(date("h:i A", strtotime($appointment['StartTime'])), ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['Status']); ?></td>
+                        <td>
+                            <form action="Appointments.php" method="POST" style="display:flex; justify-content:center; gap: 5px;">
+                                <input type="hidden" name="appointment_id" value="<?php echo $appointment['AppointmentID']; ?>">
+                                <button type="submit" class="accept-button">Done</button>
+                                <button type="submit" name="action" value="no_show" class="reject-button">No Show</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php } 
+            } else { ?>
+                <tr><td colspan="8">No upcoming appointments.</td></tr>
+            <?php } ?>
+        </tbody>
+    </table>
 
     <script src="jquery_yawa.js"></script>
     <script>
         $(document).ready(function(){
-            // Tab functionality
-            $(".tab-button").on("click", function() {
-                const tabId = $(this).data("tab");
-
-                $(".tab-button").removeClass("active");
-                $(this).addClass("active");
-
-                $(".tab-content").removeClass("active");
-                $("#" + tabId).addClass("active");
-            });
-
             // Search functionality
             $("#search").on("keyup", function(){
                 let searchQuery = $(this).val();
